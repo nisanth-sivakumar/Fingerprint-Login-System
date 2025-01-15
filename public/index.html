@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Summative</title>
+        <link rel="stylesheet" type="text/css" href="css/arduino.css" />
+    </head>
+    <body>
+        <div class="login">
+            <form id="login" method="get">
+                <label for="Uname">Username</label>
+                <input type="text" name="Uname" id="Uname" placeholder="Enter your username" required>
+    
+                <label for="Pass">Password</label>
+                <input type="password" name="Pass" id="Pass" placeholder="Enter your password" required>
+            </form>
+    
+            <div id="button-div">
+                <button class="btn" id="button">Log In</button>
+            </div>
+    
+            <div id="get-request">
+                <span class="resp"></span>
+            </div>
+        </div>
+
+        <script>
+            var userID; // Variable to store ID
+
+            const element = document.querySelector('#get-request .resp'); // DOM element 
+            const buttonDiv = document.getElementById("button-div"); // DOM element
+            const buttonDivPressed = e => { // Function for when button pressed
+            const isButton = e.target.nodeName === 'BUTTON'; // If element is a button
+            if(!isButton) { 
+            return
+            }
+            (async () => { // Async function
+            var enteredUser = document.getElementById("Uname"); // DOM element for username
+            var enteredPass = document.getElementById("Pass"); // DOM element for password
+
+            const username = enteredUser.value; // Gets value from DOM
+            const password = enteredPass.value; // Gets value from DOM
+
+            if(username === "Hammad" && password === "pass123") { // First users crendentials
+                userID = 1;
+            } 
+            else if(username === "Nisanth" && password === "pass123") { // Second useres credentials
+                userID = 2;
+            }
+            else {
+                userID = -10;
+            }
+
+            const response = await fetch('http://localhost:3000/' + userID) // Fetch reuest to server
+            const data = await response.text(); // Response data
+            element.innerHTML = data; 
+            })();
+            }
+            buttonDiv.addEventListener("click",
+           buttonDivPressed); // Click event listener for button
+        </script>
+    </body>
+</html>
